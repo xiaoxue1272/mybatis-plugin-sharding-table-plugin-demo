@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiangou.mapper.TestMapper">
+
+    <resultMap id="BaseResultMap" type="com.tiangou.po.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="simpleQuery" resultMap="BaseResultMap">
+        select * from user:suffixName
+    </select>
+
+    <select id="simpleConditionQuery" parameterType="com.tiangou.po.User" resultMap="BaseResultMap">
+        select * from user:suffixName
+        <where>
+            <if test="id !=null and id != ''">
+                and id  = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="age !=null">
+                and age  = #{age,jdbcType=INTEGER}
+            </if>
+            <if test="name !=null and name != ''">
+                and name  = #{name,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <update id="simpleUpdate" parameterType="com.tiangou.po.User">
+        update user:suffixName
+        <set>
+            <if test="age !=null">
+                age  = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="name !=null and name != ''">
+                name  = #{name,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <insert id="simpleInsert" parameterType="com.tiangou.po.User">
+        insert user:suffixName (
+                age,
+                name
+        ) values (
+                age  = #{age,jdbcType=INTEGER},
+                name  = #{name,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <delete id="simpleDelete" parameterType="com.tiangou.po.User">
+        delete from user:suffixName
+        <where>
+            <if test="id !=null and id != ''">
+                and id  = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="age !=null">
+                and age  = #{age,jdbcType=INTEGER}
+            </if>
+            <if test="name !=null and name != ''">
+                and name  = #{name,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </delete>
+
+</mapper>
